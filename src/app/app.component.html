@@ -1,11 +1,94 @@
+<!-- CSS -->
+
+<style>
+  .nevBarDiv{
+    margin-top: 2rem;
+  }
+
+  .materialIco {
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  padding-right: 1rem;
+}
+
+  .logoutBut{
+    font-size: 32px;
+  }
+
+  .cardFormat{
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    background-color: antiquewhite;
+  }
+
+</style>
+
 <mat-sidenav-container >
-  <mat-sidenav #sidenav mode="side" opened>Today</mat-sidenav>
-  <mat-toolbar color="primary" class="navbar">
-    <button (click)="sidenav.toggle()"> Menu </button>
-    <div>To - Do List</div>
+  <mat-sidenav #sidenav mode="side" opened>
+
     <div>
-      <span style="padding-right: 1rem;">User Name</span>
-      <span style="padding-right: 1rem;">Logout</span>
+      <mat-form-field appearance="outline" style="width: 10rem;">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Type">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>  
     </div>
-  </mat-toolbar>
+
+    <div class="nevBarDiv">
+      <mat-icon class="materialIco">today</mat-icon>
+      <strong>Today</strong>
+    </div>
+
+    <div class="nevBarDiv">
+      <mat-icon class="materialIco">stars</mat-icon>
+      <strong>Important</strong>
+    </div>
+
+    <div class="nevBarDiv">
+      <mat-icon class="materialIco">archives</mat-icon>
+      <strong>Archived</strong>
+    </div>
+  </mat-sidenav>
+
+    <mat-toolbar color="primary" class="navbar">
+      <button *ngIf="test==true" mat-icon-button (click)="sidenav.toggle(); test=false">
+        <mat-icon class="logoutBut">menu</mat-icon>
+      </button>
+      <button *ngIf="test==false" mat-icon-button (click)="sidenav.toggle(); test=true">
+        <mat-icon class="logoutBut">menu_open</mat-icon>
+      </button>
+      <div>To - Do List</div>
+      <div>
+        <button mat-icon-button>
+          <mat-icon class="logoutBut">exit_to_app</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+
+    <mat-drawer-container>
+      <mat-drawer-content>
+        <div class="mainDiv">
+          <button mat-fab style="float: right; margin-bottom: 2%; margin-top:45%; margin-right:2%;">
+            <mat-icon>add</mat-icon>
+          </button >
+        </div>
+        <mat-card *ngIf="showCheck"  class="cardFormat"><mat-checkbox (click)="doneTask()">Task One <mat-icon class="materialIco" style="color: red;">stars</mat-icon> <mat-hint>27-01-2020</mat-hint> </mat-checkbox></mat-card>
+        <mat-card class="cardFormat"><mat-checkbox>Task Two</mat-checkbox></mat-card>
+        <mat-card class="cardFormat"><mat-checkbox>Task Three</mat-checkbox></mat-card>
+        <mat-card class="cardFormat"><mat-checkbox>Task Four</mat-checkbox></mat-card>
+        <mat-card class="cardFormat"><mat-checkbox>Task Five</mat-checkbox></mat-card>
+      </mat-drawer-content>
+
+    </mat-drawer-container>    
+    <button mat-raised-button (click)="openBottomSheet()">Open file</button>
+
 </mat-sidenav-container>
+
+
+
+
+
+
+
