@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Archived Tasks</h1>
+<div mat-dialog-content>
+  
+  <button mat-fab class="fab-container">
+    <mat-icon>delete</mat-icon>
+  </button >
+
+    <div *ngFor="let archivedRecord of archivedRecords">
+
+      <mat-card *ngIf="archivedRecord.statuse" class="cardFormat">
+        <mat-checkbox (click)="doneTask()"> 
+          {{archivedRecord.name}} 
+          <mat-icon *ngIf="archivedRecord.priority=='High'" style="color:red ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="archivedRecord.priority=='Medium'" style="color:rgb(197, 167, 35) ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="archivedRecord.priority=='Low'" style="color:green ;" class="materialIco">stars</mat-icon>  
+        </mat-checkbox>
+        <mat-hint>{{archivedRecord.date}}</mat-hint> 
+          <mat-icon class="unArchive" (click)="archivedRecord.statuse=false; unArchive(archivedRecord.id)">unarchive</mat-icon>
+      </mat-card>
+
+    </div>
+
+</div>
+

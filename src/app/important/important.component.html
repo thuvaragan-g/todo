@@ -1,0 +1,23 @@
+
+<h1 mat-dialog-title>Important Tasks</h1>
+<div mat-dialog-content>
+  
+
+
+    <div *ngFor="let importantRecord of importantRecords">
+
+      <mat-card class="cardFormat">
+        <mat-checkbox (click)="doneTask()"> 
+          {{importantRecord.name}} 
+          <mat-icon *ngIf="importantRecord.priority=='High'" style="color:red ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="importantRecord.priority=='Medium'" style="color:rgb(197, 167, 35) ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="importantRecord.priority=='Low'" style="color:green ;" class="materialIco">stars</mat-icon>  
+        </mat-checkbox>
+        <mat-hint>{{importantRecord.date}}</mat-hint> 
+      </mat-card>
+
+    </div>
+
+</div>
+
+

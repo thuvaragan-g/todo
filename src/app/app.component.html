@@ -3,6 +3,21 @@
 <style>
   .nevBarDiv{
     margin-top: 2rem;
+    padding-top: 10px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  cursor: pointer;
+  }
+
+  .nevBarDivClicked{
+    margin-top: 2rem;
+    padding-top: 10px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  background-color:indianred;
+  cursor: pointer;
   }
 
   .materialIco {
@@ -23,30 +38,62 @@
     background-color: antiquewhite;
   }
 
+  .fab-container {
+  position: fixed;
+  bottom: 30px;
+  right: 45px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;}
+
+
+  .menu {
+  right: 1%;
+  position: absolute;
+  vertical-align: middle;
+  top: 5px;
+ }
+
+ .search{
+white-space: nowrap;
+font-size: 1rem;
+line-height: 2.4rem;
+letter-spacing: .03rem;
+font-weight: 200;
+color: #444;
+border: none;
+border-radius: 5px;
+background-color: #fff;
+padding: 5px 16px;
+margin-left: 5px;
+margin-top: 3px;
+width: 150px;
+max-width: 240px;
+height: 50%;
+ }
+
 </style>
 
 <mat-sidenav-container >
   <mat-sidenav #sidenav mode="side" opened>
 
     <div>
-      <mat-form-field appearance="outline" style="width: 10rem;">
-        <mat-label>Search</mat-label>
-        <input matInput placeholder="Type">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>  
+        <input aria-label="search" placeholder="Search" type="search" class="search">
+        <!-- <input matInput placeholder="Type"> -->
     </div>
 
-    <div class="nevBarDiv">
+    <div class="nevBarDiv" (click)="openDialog(); clickEvent()"  [ngClass]="status ? 'nevBarDivClicked' : 'nevBarDiv'">
       <mat-icon class="materialIco">today</mat-icon>
       <strong>Today</strong>
     </div>
 
-    <div class="nevBarDiv">
+    <div class="nevBarDiv" (click)="openImportant()">
       <mat-icon class="materialIco">stars</mat-icon>
       <strong>Important</strong>
     </div>
 
-    <div class="nevBarDiv">
+    <div class="nevBarDiv" (click)="openArchived()">
       <mat-icon class="materialIco">archives</mat-icon>
       <strong>Archived</strong>
     </div>
@@ -69,26 +116,78 @@
 
     <mat-drawer-container>
       <mat-drawer-content>
-        <div class="mainDiv">
-          <button mat-fab style="float: right; margin-bottom: 2%; margin-top:45%; margin-right:2%;">
-            <mat-icon>add</mat-icon>
-          </button >
+
+
+        <button mat-fab class="fab-container" (click)="openBottomSheet()">
+          <mat-icon>add</mat-icon>
+        </button >
+
+        <div *ngFor="let record of records">
+
+          <mat-card *ngIf="record.statuse" class="cardFormat">
+            <mat-checkbox (change)="record.statuse=false; done(record.id)" *ngIf="!record.edit"> 
+              {{record.name}} 
+              <mat-icon *ngIf="record.priority=='High'" style="color:red ;" class="materialIco">stars</mat-icon>
+              <mat-icon *ngIf="record.priority=='Medium'" style="color:rgb(197, 167, 35) ;" class="materialIco">stars</mat-icon>
+              <mat-icon *ngIf="record.priority=='Low'" style="color:green ;" class="materialIco">stars</mat-icon>  
+            </mat-checkbox>
+
+            <div *ngIf="record.edit">
+
+              <form (submit)="updateTask($event, record.id); record.edit=false">
+                <mat-form-field style="margin-top: 2%;">
+                  <input matInput placeholder="Task name" value="{{record.name}}" id="tskName">
+                </mat-form-field>
+                <button mat-raised-button color="primary" style="margin-left: 2%;" type="submit">Update</button>
+              </form>
+            </div>
+
+            <mat-hint>{{record.date | date}}</mat-hint> 
+
+
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item >
+                <mat-icon>stars</mat-icon>
+                <span>Change Priority </span>
+              </button>
+
+              <button mat-menu-item>
+                <mat-icon>update</mat-icon>
+                <span>Edit Date</span>
+              </button>
+
+              <button mat-menu-item (click)="record.edit=true">
+                <mat-icon>check_box</mat-icon>
+                <span>Edit Task</span>
+              </button>
+            </mat-menu>
+
+          </mat-card>
+
         </div>
-        <mat-card *ngIf="showCheck"  class="cardFormat"><mat-checkbox (click)="doneTask()">Task One <mat-icon class="materialIco" style="color: red;">stars</mat-icon> <mat-hint>27-01-2020</mat-hint> </mat-checkbox></mat-card>
-        <mat-card class="cardFormat"><mat-checkbox>Task Two</mat-checkbox></mat-card>
-        <mat-card class="cardFormat"><mat-checkbox>Task Three</mat-checkbox></mat-card>
-        <mat-card class="cardFormat"><mat-checkbox>Task Four</mat-checkbox></mat-card>
-        <mat-card class="cardFormat"><mat-checkbox>Task Five</mat-checkbox></mat-card>
+
+        <!-- <section class="checkbox-section">
+          <mat-checkbox  (change)="onCheckboxChagen($event, 'Blogs')">Blogs</mat-checkbox>
+          <mat-checkbox  (change)="onCheckboxChagen($event, 'Web')">Web</mat-checkbox>
+          <mat-checkbox  (change)="onCheckboxChagen($event, 'Online News')">Online News</mat-checkbox>
+          </section> -->
+        
+
+
+<!-- <div id="someTest"> tome thing testing</div> -->
+
+<!-- <a [routerLink] = "'/archived'">
+  Go to Products List
+</a> -->
+
+
+
       </mat-drawer-content>
-
-    </mat-drawer-container>    
-    <button mat-raised-button (click)="openBottomSheet()">Open file</button>
-
+    </mat-drawer-container>
 </mat-sidenav-container>
 
-
-
-
-
-
+<!-- <router-outlet></router-outlet> -->
 

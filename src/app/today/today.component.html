@@ -1,0 +1,22 @@
+
+<h1 mat-dialog-title>Today Tasks</h1>
+<div mat-dialog-content>
+  
+
+
+    <div *ngFor="let todayRecord of todayRecords">
+
+      <mat-card class="cardFormat">
+        <mat-checkbox (click)="doneTask()"> 
+          {{todayRecord.name}} 
+          <mat-icon *ngIf="todayRecord.priority=='High'" style="color:red ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="todayRecord.priority=='Medium'" style="color:rgb(197, 167, 35) ;" class="materialIco">stars</mat-icon>
+          <mat-icon *ngIf="todayRecord.priority=='Low'" style="color:green ;" class="materialIco">stars</mat-icon>  
+        </mat-checkbox>
+        <mat-hint>{{todayRecord.date}}</mat-hint> 
+      </mat-card>
+
+    </div>
+
+</div>
+

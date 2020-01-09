@@ -1,22 +1,45 @@
-<mat-nav-list>
-    <a href="https://keep.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Keep</span>
-      <span mat-line>Add to a note</span>
-    </a>
-  
-    <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Docs</span>
-      <span mat-line>Embed in a document</span>
-    </a>
-  
-    <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Plus</span>
-      <span mat-line>Share with your friends</span>
-    </a>
-  
-    <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Hangouts</span>
-      <span mat-line>Show to your coworkers</span>
-    </a>
-  </mat-nav-list>
+<mat-nav-list> 
+
+  <form (submit)="addTask($event)">
+
+<!-- Task Input | only input 100 charactors -->   
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Task</mat-label>
+      <input matInput placeholder="Only 140 charactors" id="tskName" name="tskName" ngModel maxlength="140">
+      <mat-icon matSuffix>check_circle</mat-icon>
+    </mat-form-field>
+
+<!-- Priority Selector -->
+    <div style="margin-bottom: 1rem;">
+      <div style="margin-bottom:1rem; text-align: center;">
+        <strong>
+          Priority
+        </strong>
+      </div>
+      <mat-button-toggle-group #toggleGroup="matButtonToggleGroup" style="width: 100%;">
+        <mat-button-toggle style="width: 33.33%;" *ngFor="let item of toggleOptions;" (change)="selectionChanged($event)" [value]="item">
+         {{item}}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+<!-- Date Picker -->
+    <div>
+      <mat-form-field style="width: 99%; text-align: center">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" id="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+<!-- Subbmit Button -->
+    <div>
+      <strong style="color: crimson;"> {{inputErrorMsg}} </strong>
+      <button mat-raised-button color="primary" style="float: right;" type="submit">
+        Add Task
+      </button>
+    </div>
+  </form> 
+
+</mat-nav-list>
   
